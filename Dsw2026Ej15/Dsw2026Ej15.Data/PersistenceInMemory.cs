@@ -14,6 +14,10 @@ namespace Dsw2026Ej15.Data
         private static readonly List<Doctor> _doctores = new List<Doctor>();
         private static List<Speciality> _specialities = new List<Speciality>();
 
+        public PersistenceInMemory()
+        {
+            LoadSpecialities();
+        }
 
         public IEnumerable<Doctor> GetDoctores()
         {
@@ -29,8 +33,7 @@ namespace Dsw2026Ej15.Data
         {
             _doctores.Add(doctor);
         }
-
-
+        
         public IEnumerable<Speciality> GetEspecialidades()
         {
             return _specialities;
