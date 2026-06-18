@@ -51,7 +51,22 @@ namespace Dsw2026Ej15.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetActiveDoctors()
         {
-            return Ok();
+            var allDoctors = _persistence.GetDoctores();
+            var activeDoctors = allDoctors.Where(d => d.IsActive);
+            return Ok(activeDoctors);
+        }
+        
+        //endpoint3
+        [HttpGet("doctor/{id}")]
+        public async Task<IActionResult> GetDoctorId(Guid id)
+        {
+            //var idResearch = id;
+            var doctorbuscardo=_persistence.GetDoctorId(id);
+            if(doctorbuscardo == null || !doctorbuscardo.IsActive)
+            {
+                return NotFound("Doctor no encontrado o inactivo");
+            }
+            return Ok(doctorbuscardo);
         }
     }
 }

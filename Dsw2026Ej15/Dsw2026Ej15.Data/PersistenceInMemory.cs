@@ -26,7 +26,7 @@ namespace Dsw2026Ej15.Data
 
         public Doctor GetDoctorId(Guid id)
         {
-            return _doctores.FirstOrDefault(d => d.Id == id);
+            return _doctores.SingleOrDefault(d => d.Id == id);
         }
 
         public void AddDoctor(Doctor doctor)
