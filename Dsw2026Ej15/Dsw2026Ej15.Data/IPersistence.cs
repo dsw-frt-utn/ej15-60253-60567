@@ -10,7 +10,7 @@ namespace Dsw2026Ej15.Data
         IEnumerable<Doctor> GetDoctores();
         Doctor GetDoctorId(Guid id);
         void AddDoctor(Doctor doctor);
-        IEnumerable<Speciality> GetEspecialidades();
+        IEnumerable<Speciality> GetSpecialities();
         Speciality? GetSpecialityById(Guid id);
     }
 }

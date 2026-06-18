@@ -17,10 +17,10 @@ namespace Dsw2026Ej15.Api.Controllers
         }
 
         //endpoint 1
-        //debemos hacer los metodos del controlador asincronicos
+        
         [HttpPost]
         public async Task<IActionResult> CreateDoctor([FromBody]DoctorModel.Request request) 
-        //cuando queremos retornar mensajes de estado. Codigos de estado. (IActionResult)
+        
         {
             //validaciones
             if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.LicenseNumber))
@@ -33,10 +33,6 @@ namespace Dsw2026Ej15.Api.Controllers
                 return BadRequest("la especialidad no existe");
             }
             
-            //acá hay q crear el objeto doctor con los datos que recibe.
-            // a ese objeto guardarlo en persistencia en memoria.
-            // en la persistencia en memoria agregar el metodo CreateDoctor
-            
             var newDoctor=new Doctor(
                 Guid.NewGuid(),
                 request.Name,
@@ -48,7 +44,7 @@ namespace Dsw2026Ej15.Api.Controllers
         } 
         
         //endpoint2
-        [HttpGet]
+        [HttpGet("doctors")]
         public async Task<IActionResult> GetActiveDoctors()
         {
             var allDoctors = _persistence.GetDoctores();
@@ -57,10 +53,9 @@ namespace Dsw2026Ej15.Api.Controllers
         }
         
         //endpoint3
-        [HttpGet("doctor/{id}")]
+        [HttpGet("doctors/{id}")]
         public async Task<IActionResult> GetDoctorId(Guid id)
         {
-            //var idResearch = id;
             var doctorbuscardo=_persistence.GetDoctorId(id);
             if(doctorbuscardo == null || !doctorbuscardo.IsActive)
             {
@@ -68,5 +63,20 @@ namespace Dsw2026Ej15.Api.Controllers
             }
             return Ok(doctorbuscardo);
         }
+        //endpoint4
+        [HttpDelete("doctors/{id}")]
+        public async Task<IActionResult> DeleteDoctorId(Guid id)
+        {
+
+            var doctorbuscardo = _persistence.GetDoctorId(id);
+            if (doctorbuscardo == null || !doctorbuscardo.IsActive)
+            {
+                return NotFound("Doctor no encontrado o inactivo");
+            }
+
+            doctorbuscardo.Desactivar();
+            return NoContent();
+        }
+
     }
 }

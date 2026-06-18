@@ -34,7 +34,7 @@ namespace Dsw2026Ej15.Data
             _doctores.Add(doctor);
         }
         
-        public IEnumerable<Speciality> GetEspecialidades()
+        public IEnumerable<Speciality> GetSpecialities()
         {
             return _specialities;
         }
