@@ -21,7 +21,7 @@ namespace Dsw2026Ej15.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDoctor([FromBody]DoctorModel.Request request) 
         {
-            //validaciones
+            //valid
             if (string.IsNullOrWhiteSpace(request.Name) || string.IsNullOrWhiteSpace(request.LicenseNumber))
             {
                 throw new ValidationException("nombre y matricula son requeridos");
@@ -37,7 +37,8 @@ namespace Dsw2026Ej15.Api.Controllers
                 request.Name,
                 request.LicenseNumber,
                 true,
-                speciality);
+                speciality
+            );
             _persistence.AddDoctor(newDoctor);
             return Created();
         } 
@@ -58,9 +59,8 @@ namespace Dsw2026Ej15.Api.Controllers
             var doctor=_persistence.GetDoctorId(id);
             if(doctor == null || !doctor.IsActive)
             {
-                return NotFound("Doctor no encontrado o inactivo");
+                return NotFound("doctor no encontrado o inactivo");
             }
-
             var data = new
             {
                 Name = doctor.Name,
@@ -79,9 +79,8 @@ namespace Dsw2026Ej15.Api.Controllers
             {
                 return NotFound("Doctor no encontrado o inactivo");
             }
-            doctorbuscardo.Desactivar();
+            doctorbuscardo.Deactivate();
             return NoContent();
         }
-
     }
 }

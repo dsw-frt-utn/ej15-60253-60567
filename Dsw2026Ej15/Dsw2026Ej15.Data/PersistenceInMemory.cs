@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-using System.Linq;
-using System.IO;
+﻿using System.Text.Json;
 using Dsw2026Ej15.Domain;
 
 
@@ -11,7 +6,7 @@ namespace Dsw2026Ej15.Data
 {
     public class PersistenceInMemory : IPersistence
     {
-        private static readonly List<Doctor> _doctores = new List<Doctor>();
+        private static readonly List<Doctor> _doctors = new List<Doctor>();
         private static List<Speciality> _specialities = new List<Speciality>();
 
         public PersistenceInMemory()
@@ -21,17 +16,17 @@ namespace Dsw2026Ej15.Data
 
         public IEnumerable<Doctor> GetDoctores()
         {
-            return _doctores;
+            return _doctors;
         }
 
         public Doctor GetDoctorId(Guid id)
         {
-            return _doctores.SingleOrDefault(d => d.Id == id);
+            return _doctors.SingleOrDefault(d => d.Id == id);
         }
 
         public void AddDoctor(Doctor doctor)
         {
-            _doctores.Add(doctor);
+            _doctors.Add(doctor);
         }
         
         public IEnumerable<Speciality> GetSpecialities()
