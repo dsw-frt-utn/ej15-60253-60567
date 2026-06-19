@@ -79,7 +79,7 @@ namespace Dsw2026Ej15.Api.Controllers
             {
                 return NotFound("Doctor no encontrado o inactivo");
             }
-            doctorbuscardo.Deactivate();
+            _persistence.DeactivateDoctor(id);
             return NoContent();
         }
     }

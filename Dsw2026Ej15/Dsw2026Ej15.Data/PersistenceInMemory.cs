@@ -34,6 +34,25 @@ namespace Dsw2026Ej15.Data
             return _specialities;
         }
 
+        public void DeactivateDoctor(Guid id)
+        {
+            var doctorActual = _doctors.SingleOrDefault(d => d.Id == id);
+
+            if (doctorActual != null)
+            {
+                var doctorInactivo = new Doctor(
+                    doctorActual.Id,
+                    doctorActual.Name,
+                    doctorActual.LicenseNumber,
+                    false, // lo actualiza a inactivo
+                    doctorActual.Speciality
+                );
+
+                _doctors.Remove(doctorActual);
+                _doctors.Add(doctorInactivo);
+            }
+        }
+
         private void LoadSpecialities()
         {
             try

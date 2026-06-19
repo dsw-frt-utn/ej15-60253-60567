@@ -12,5 +12,6 @@ namespace Dsw2026Ej15.Data
         void AddDoctor(Doctor doctor);
         IEnumerable<Speciality> GetSpecialities();
         Speciality? GetSpecialityById(Guid id);
+        void DeactivateDoctor(Guid id);
     }
 }

@@ -19,9 +19,9 @@ namespace Dsw2026Ej15.Domain
             Speciality = speciality;
         }
 
-        public void Deactivate()
-        {
-            IsActive = false;
-        }
+        //public void Deactivate()
+        //{
+         //   IsActive = false;
+        //}
     }
 }
