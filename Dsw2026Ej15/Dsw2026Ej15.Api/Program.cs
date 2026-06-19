@@ -16,8 +16,8 @@ namespace Dsw2026Ej15.Api
 
             builder.Services.AddHealthChecks();
             var app = builder.Build();
-
-            app.UseMiddleware<ExceptionMiddleware>();
+    
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -27,9 +27,8 @@ namespace Dsw2026Ej15.Api
                 });
             }
             app.UseAuthorization();
-            app.MapHealthChecks("/health-check");
             app.MapControllers();
-            
+            app.MapHealthChecks("/health-check");
             app.Run();
         }
     }

@@ -1,12 +1,15 @@
+using System.Net;
+using System.Net.Mime;
+using System.Text.Json;
 using Dsw2026Ej15.Domain.Exceptions;
 
 namespace Dsw2026Ej15.Api.Middlewares;
 
-public class ExceptionMiddleware
+public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public ExceptionMiddleware(RequestDelegate next)
+    public ExceptionHandlingMiddleware(RequestDelegate next)
     {
         _next = next;
     }
@@ -17,25 +20,23 @@ public class ExceptionMiddleware
         {
             await _next(context);
         }
-        catch (ValidationException e)
+        catch (Exception ex)
         {
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            context.Response.ContentType = "application/json";
-            var errorResponse = new
-            {
-                error = e.Message
-            };
-            await context.Response.WriteAsJsonAsync(errorResponse);
+            await HandleExceptionAsync(context, ex);
         }
-        catch (Exception)
+    }
+    private async Task HandleExceptionAsync(HttpContext context, Exception ex)
+    {
+        HttpStatusCode status = HttpStatusCode.InternalServerError;
+        string message = "ocurrio un error inesperado al ejecutar la solicitud";
+        if (ex is ValidationException ve)
         {
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            status = HttpStatusCode.BadRequest;
+            message = ve.Message;
+            var result = JsonSerializer.Serialize(new { error = message });
             context.Response.ContentType = "application/json";
-            var errorResponse = new
-            {
-                error = "ocurrio un error en servidor"
-            };
-            await context.Response.WriteAsJsonAsync(errorResponse);
+            context.Response.StatusCode = (int)status;
+            await context.Response.WriteAsync(result);
         }
     }
 }
