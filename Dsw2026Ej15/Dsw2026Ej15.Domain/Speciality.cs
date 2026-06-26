@@ -9,6 +9,7 @@ namespace Dsw2026Ej15.Domain
         public string Name { get; }
         public string Description { get; }
 
+        private Speciality() { }   
         public Speciality(Guid id, string name, string description) : base(id)
         {
             Name = name;
