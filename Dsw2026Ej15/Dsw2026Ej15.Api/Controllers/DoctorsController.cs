@@ -26,7 +26,7 @@ namespace Dsw2026Ej15.Api.Controllers
             {
                 throw new ValidationException("nombre y matricula son requeridos");
             }
-            var speciality = _persistence.GetSpecialityById(request.SpecialityId);
+            var speciality = await _persistence.GetSpecialityById(request.SpecialityId);
             if (speciality == null)
             {
                 throw new ValidationException("la especialidad no existe");
@@ -39,7 +39,7 @@ namespace Dsw2026Ej15.Api.Controllers
                 true,
                 speciality
             );
-            _persistence.AddDoctor(newDoctor);
+            await _persistence.AddDoctor(newDoctor);
             return Created();
         } 
         
@@ -47,7 +47,7 @@ namespace Dsw2026Ej15.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetActiveDoctors()
         {
-            var allDoctors = _persistence.GetDoctores();
+            var allDoctors = await _persistence.GetDoctores();
             var activeDoctors = allDoctors.Where(d => d.IsActive);
             return Ok(activeDoctors);
         }
@@ -56,7 +56,7 @@ namespace Dsw2026Ej15.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetDoctorId(Guid id)
         {
-            var doctor=_persistence.GetDoctorId(id);
+            var doctor=await _persistence.GetDoctorId(id);
             if(doctor == null || !doctor.IsActive)
             {
                 return NotFound("doctor no encontrado o inactivo");
@@ -65,7 +65,7 @@ namespace Dsw2026Ej15.Api.Controllers
             {
                 Name = doctor.Name,
                 LicenseNumber = doctor.LicenseNumber,
-                SpecialityName = doctor.Speciality.Name
+                SpecialityName = doctor.Speciality?.Name
             };
             return Ok(data);
         }
@@ -74,12 +74,12 @@ namespace Dsw2026Ej15.Api.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteDoctorId(Guid id)
         {
-            var doctorbuscardo = _persistence.GetDoctorId(id);
+            var doctorbuscardo = await _persistence.GetDoctorId(id);
             if (doctorbuscardo == null || !doctorbuscardo.IsActive)
             {
                 return NotFound("Doctor no encontrado o inactivo");
             }
-            _persistence.DeactivateDoctor(id);
+            await _persistence.DeactivateDoctor(id);
             return NoContent();
         }
     }

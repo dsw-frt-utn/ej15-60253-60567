@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dsw2026Ej15.Data
 {
@@ -26,7 +27,7 @@ namespace Dsw2026Ej15.Data
 
         public async Task<IEnumerable<Doctor>> GetDoctores()
         {
-            return _context.Doctors.Where(d => d.IsActive);
+            return await _context.Doctors.Where(d => d.IsActive).ToListAsync();
         }
 
         public async Task<Doctor?> GetDoctorId(Guid id)
